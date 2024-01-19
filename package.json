@@ -9,6 +9,9 @@
     "web": "expo start --web"
   },
   "dependencies": {
+    "@expo-google-fonts/poppins": "^0.2.3",
+    "@react-navigation/native": "^6.1.9",
+    "@react-navigation/stack": "^6.3.20",
     "expo": "~49.0.15",
     "expo-status-bar": "~1.6.0",
     "react": "18.2.0",
@@ -16,6 +19,11 @@
   },
   "devDependencies": {
     "@babel/core": "^7.20.0"
+  },
+  "rnpm": {
+    "assets": [
+      "./assets/fonts"
+    ]
   },
   "private": true
 }
