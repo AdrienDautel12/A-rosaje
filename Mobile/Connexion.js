@@ -3,13 +3,37 @@ import { View, Text, TextInput, TouchableOpacity, ImageBackground, KeyboardAvoid
 import { useNavigation } from '@react-navigation/native';
 
 export default function Connexion() {
-  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const navigation = useNavigation();
 
-  const handleConnexion = () => {
-    console.log('Connexion :', { email, password });
-    navigation.navigate('Accueil');
+  const handleConnexion = async () => {
+    console.log('Connexion :', { username, password });
+    try {
+      const response = await fetch('http://172.20.10.8:8000/api/token/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          username,
+          password,
+        }),
+      });
+
+      if (!response.ok) {
+        const responseData = await response.json();
+        console.error('Erreur lors de la connexion :', responseData);
+        // Gérer les cas d'erreur de connexion, par exemple afficher un message à l'utilisateur
+      } else {
+        const responseData = await response.json();
+        console.log('Connexion réussie :', responseData);
+        navigation.navigate('Accueil'); // Redirection vers la page d'accueil après la connexion réussie
+      }
+    } catch (error) {
+      console.error('Erreur lors de la requête :', error);
+      // Gérer les erreurs de requête, par exemple afficher un message générique à l'utilisateur
+    }
   };
 
   const handleForgotPassword = () => {
@@ -19,7 +43,7 @@ export default function Connexion() {
     navigation.navigate('Inscription');
   };
 
-  return (
+   return (
     <ImageBackground source={require('./assets/connexarbre.jpg')} style={styles.background}>
       <View style={styles.headerContainer}>
         <Text style={[styles.arosaje, { fontSize: 30, marginTop: 20 }]}>A'ROSA-JE</Text>
@@ -28,16 +52,14 @@ export default function Connexion() {
         <View style={styles.formContainer}>
           <TextInput
             style={[styles.input, { textAlign: 'center' }]}
-            placeholder="EMAIL"
+            placeholder="Username"
             placeholderTextColor="#A9A9A9"
-            placeholderStyle={{ fontSize: 18, color: '#666666' }} // Placeholder légèrement plus gros et plus foncé
-            onChangeText={(text) => setEmail(text)}
+            onChangeText={(text) => setUsername(text)}
           />
           <TextInput
             style={[styles.input, { textAlign: 'center' }]}
-            placeholder="PASSWORD"
+            placeholder="Password"
             placeholderTextColor="#A9A9A9"
-            placeholderStyle={{ fontSize: 18, color: '#666666' }} // Placeholder légèrement plus gros et plus foncé
             secureTextEntry
             onChangeText={(text) => setPassword(text)}
           />
@@ -49,8 +71,7 @@ export default function Connexion() {
               <Text style={styles.buttonText}>CONNEXION </Text>
             </TouchableOpacity>
           </View>
-            <Text style={styles.noCompte}>Vous n'avez pas encore de compte ?</Text>
-
+          <Text style={styles.noCompte}>Vous n'avez pas encore de compte ?</Text>
           <TouchableOpacity onPress={handleInscription}>
             <Text style={styles.forgotPassword}>Inscrivez-vous</Text>
           </TouchableOpacity>
