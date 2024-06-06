@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, ImageBackground, KeyboardAvoidingView, Platform, StyleSheet } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, ImageBackground, KeyboardAvoidingView, Platform, StyleSheet, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+let token = 'salut';
 
 export default function Connexion() {
   const [username, setUsername] = useState('');
@@ -23,18 +24,18 @@ export default function Connexion() {
 
       if (!response.ok) {
         const responseData = await response.json();
-        console.error('Erreur lors de la connexion :', responseData);
-        // Gérer les cas d'erreur de connexion, par exemple afficher un message à l'utilisateur
+        Alert.alert('Erreur', 'Nom d\'utilisateur ou mot de passe incorrect');
       } else {
         const responseData = await response.json();
         console.log('Connexion réussie :', responseData);
-        navigation.navigate('Accueil'); // Redirection vers la page d'accueil après la connexion réussie
+        token = responseData;
+        navigation.navigate('Accueil');
       }
     } catch (error) {
-      console.error('Erreur lors de la requête :', error);
-      // Gérer les erreurs de requête, par exemple afficher un message générique à l'utilisateur
+      Alert.alert('Erreur', 'Une erreur s\'est produite. Veuillez réessayer plus tard.');
     }
   };
+  
 
   const handleForgotPassword = () => {
   };
@@ -52,13 +53,13 @@ export default function Connexion() {
         <View style={styles.formContainer}>
           <TextInput
             style={[styles.input, { textAlign: 'center' }]}
-            placeholder="Username"
+            placeholder="Nom d'utilisateur"
             placeholderTextColor="#A9A9A9"
             onChangeText={(text) => setUsername(text)}
           />
           <TextInput
             style={[styles.input, { textAlign: 'center' }]}
-            placeholder="Password"
+            placeholder="Mot de passe"
             placeholderTextColor="#A9A9A9"
             secureTextEntry
             onChangeText={(text) => setPassword(text)}
@@ -81,6 +82,8 @@ export default function Connexion() {
   );
 }
 
+export { token };
+
 const styles = StyleSheet.create({
   background: {
     flex: 1,
@@ -102,7 +105,7 @@ const styles = StyleSheet.create({
     fontFamily: '',
   },  
   formContainer: {
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    backgroundColor: 'rgba(255, 255, 255, 0.5)',
     padding: 20,
     borderRadius: 10,
     width: '100%',
@@ -136,7 +139,7 @@ const styles = StyleSheet.create({
   },
   forgotPassword: {
     fontSize: 15,
-    color: '#25d2ced9',
+    color: '#1F1F1F',
     textAlign: 'center',
     marginTop: 10,
   },
