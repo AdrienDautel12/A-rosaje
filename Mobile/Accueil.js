@@ -15,7 +15,7 @@ export default function Accueil() {
 
   const fetchPlants = async () => {
     try {
-      const response = await fetch('http://172.20.10.8:8000/api/plants/', {
+      const response = await fetch('http://172.16.1.126:8000/api/plants/', {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -65,33 +65,46 @@ export default function Accueil() {
   };
 
   const deletePlant = async (plantId) => {
-    try {
-      const response = await fetch(`http://172.20.10.8:8000/api/plants/${plantId}/`, {
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token.access}`,
+    Alert.alert(
+      "Confirmation",
+      "Êtes-vous sûr de vouloir supprimer cette plante ?",
+      [
+        {
+          text: "Annuler",
+          onPress: () => console.log("Suppression annulée"),
+          style: "cancel",
         },
-      });
-
-      const contentType = response.headers.get("content-type");
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        Alert.alert('Erreur', `Code d'état: ${response.status}, Message: ${errorData.message}`);
-      } else if (contentType && contentType.includes("application/json")) {
-        setPlants(plants.filter(plant => plant.id !== id));
-        Alert.alert('Succès', 'Plante supprimée avec succès');
-      } else {
-        const errorText = await response.text();
-        console.log('Response is not JSON:', errorText);
-        Alert.alert('Erreur', 'La réponse du serveur n\'est pas au format JSON.');
-      }
-    } catch (error) {
-      console.log('Error:', error);
-      Alert.alert('Erreur', `Une erreur s'est produite: ${error.message}`);
-    }
+        {
+          text: "Supprimer",
+          onPress: async () => {
+            try {
+              const response = await fetch(`http://172.16.1.126:8000/api/plants/${plantId}/`, {
+                method: 'DELETE',
+                headers: {
+                  'Content-Type': 'application/json',
+                  'Authorization': `Bearer ${token.access}`,
+                },
+              });
+  
+              if (!response.ok) {
+                const errorData = await response.json();
+                Alert.alert('Erreur', `Code d'état: ${response.status}, Message: ${errorData.message}`);
+              } else {
+                setPlants(plants.filter(plant => plant.id !== plantId));
+                Alert.alert('Succès', 'Plante supprimée avec succès');
+                fetchPlants();
+              }
+            } catch (error) {
+              console.log('Error:', error);
+              Alert.alert('Erreur', `Une erreur s'est produite: ${error.message}`);
+            }
+          },
+        },
+      ],
+      { cancelable: false }
+    );
   };
+  
 
   return (
     <View style={styles.container}>
@@ -142,7 +155,7 @@ export default function Accueil() {
       {plant.image_url && (
         <Image source={{ uri: plant.image_url }} style={styles.image}/>
       )}
-                <TouchableOpacity style={styles.deleteButton} onPress={() => deletePlant(plant.id)}>
+                <TouchableOpacity style={styles.deleteButton} onPress={() => deletePlant(plant.plantId)}>
                   <Text style={[styles.deleteButtonText]}>X</Text>
                 </TouchableOpacity>
               </View>
@@ -226,7 +239,7 @@ const styles = StyleSheet.create({
   },
   cardContainer: {
     width: '90%',
-    height: '6.5%',
+    height: '6.5',
     backgroundColor: '#E1E1E1',
     marginVertical: 10,
     borderRadius: 10,
@@ -241,7 +254,7 @@ const styles = StyleSheet.create({
   },
   cardContainer1: {
     width: '90',
-    height: '4%',
+    height: 150,
     backgroundColor: '#E1E1E1',
     marginVertical: 10,
     borderRadius: 10,

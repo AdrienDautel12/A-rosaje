@@ -10,6 +10,9 @@ import Profil from './Profil';
 import Map from './Map';
 import Garde from './Garde';
 import DetailPlant from './DetailPlant';
+import DescriptionGarde from './DescriptionGarde';
+import Conversation from './Conversation';
+
 
 
 
@@ -38,6 +41,9 @@ export default function App() {
         <Stack.Screen name="Map" component={Map} />
         <Stack.Screen name="Garde" component={Garde} />
         <Stack.Screen name="DetailPlant" component={DetailPlant} />
+        <Stack.Screen name="DescriptionGarde" component={DescriptionGarde} />
+        <Stack.Screen name="Conversation" component={Conversation} />
+
       </Stack.Navigator>
     </NavigationContainer>
   );

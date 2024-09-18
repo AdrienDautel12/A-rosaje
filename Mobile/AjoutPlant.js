@@ -34,7 +34,7 @@ export default function AjoutPlant() {
   const handleEnregistrer = async () => {
     console.log('Ajout de plante :', { name, species, plantDescription });
     try {
-      const response = await fetch('http://172.20.10.8:8000/api/plants/', {
+      const response = await fetch('http://172.16.1.126:8000/api/plants/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -81,7 +81,7 @@ export default function AjoutPlant() {
     formData.append('plant', plantId); // Envoyer l'ID de la plante dans le champ plant
   
     try {
-      const response = await fetch('http://172.20.10.8:8000/api/plant-images/', {
+      const response = await fetch('http://172.16.1.126:8000/api/plant-images/', {
         method: 'POST',
         headers: {
           'Content-Type': 'multipart/form-data',

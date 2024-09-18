@@ -21,7 +21,7 @@ export default function Inscription() {
 
     console.log('Informations saisies :', { username, password, password2, email, first_name, last_name });
     try {
-      const response = await fetch('http://172.20.10.8:8000/api/register/', {
+      const response = await fetch('http://172.16.1.126:8000/api/register/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -42,7 +42,8 @@ export default function Inscription() {
       } else {
         const responseData = await response.json();
         console.log('Inscription réussie :', responseData);
-        navigation.navigate('Connexion'); // Redirection vers la page de connexion après l'inscription
+        Alert.alert('Votre compte a bien été crée');
+        navigation.navigate('Connexion');
       }
     } catch (error) {
       console.error('Erreur lors de la requête :', error);
@@ -147,7 +148,7 @@ export default function Inscription() {
                   Ces conditions d'utilisation sont régies par les lois en vigueur dans notre juridiction.
                   {'\n\n'}
                   9. Contact{'\n'}
-                  Si vous avez des questions concernant ces conditions, veuillez nous contacter à [votre adresse e-mail de contact].
+                  Si vous avez des questions concernant ces conditions, veuillez nous contacter à arosage@gmail.fr.
                 </Text>
               </ScrollView>
               <View style={styles.modalButtonContainer}>
@@ -239,7 +240,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   link: {
-    color: '#01B763',
+    color: 'black',
     textAlign: 'center',
     marginVertical: 10,
   },

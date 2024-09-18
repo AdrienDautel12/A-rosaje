@@ -11,10 +11,11 @@ export default function Inscription() {
     first_name: '',
     last_name: '',
   });
+  
 
   const fetchProfil = async () => {
     try {
-      const response = await fetch('http://172.20.10.8:8000:8000/api/user/', {
+      const response = await fetch('http://172.16.1.126:8000/api/user/', {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -39,13 +40,14 @@ export default function Inscription() {
   const handleChange = (key, value) => {
     setProfil({
       ...profil,
+      
       [key]: value,
     });
   };
 
   const updateProfil = async () => {
     try {
-      const response = await fetch('http://172.20.10.8:8000/api/user/', {
+      const response = await fetch('http://172.16.1.126:8000/api/user/', {
         method: 'POST', // Changez PUT en POST si nécessaire
         headers: {
           'Content-Type': 'application/json',

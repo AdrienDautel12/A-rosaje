@@ -11,7 +11,7 @@ export default function Connexion() {
   const handleConnexion = async () => {
     console.log('Connexion :', { username, password });
     try {
-      const response = await fetch('http://172.20.10.8:8000/api/token/', {
+      const response = await fetch('http://172.16.1.126:8000/api/token/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

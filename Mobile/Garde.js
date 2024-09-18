@@ -17,7 +17,7 @@ export default function Accueil() {
 
   const fetchPlants = async () => {
     try {
-      const userResponse = await fetch('http://172.20.10.8:8000/api/user/', {
+      const userResponse = await fetch('http://172.16.1.126:8000/api/user/', {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -41,7 +41,7 @@ export default function Accueil() {
     }
 
     try {
-      const plantsResponse = await fetch('http://172.20.10.8:8000/api/guardian-requests/', {
+      const plantsResponse = await fetch('http://172.16.1.126:8000/api/guardian-requests/', {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -81,8 +81,10 @@ export default function Accueil() {
   };
 
   const handleViewPlant = (plant) => {
-    navigation.navigate('DetailPlant', { plant });
+    console.log(plant.request_id);  
+    navigation.navigate('DescriptionGarde', { requestId: plant.request_id });
   };
+  
 
   return (
     <View style={styles.container}>
@@ -100,7 +102,6 @@ export default function Accueil() {
                   <Image source={require('./assets/user-account.png')} style={styles.userImage} />
                   <View style={{ flex: 1 }}>
                     <Text style={[styles.infoText]}>Propriétaire: {plant.last_name} {plant.first_name}</Text>
-                    <Text style={[styles.infoText]}>Espèce: {plant.species}</Text>
                     <Text style={[styles.infoText]}>Prix: {plant.price}</Text>
                     <Text style={[styles.infoText]}>Période de garde: {plant.formatted_dates}</Text>
                   </View>

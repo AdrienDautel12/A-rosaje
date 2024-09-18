@@ -49,7 +49,7 @@ export default function DetailPlant() {
     };
     console.log('Data to be sent:', data);
     try {
-      const response = await fetch('http://172.20.10.8:8000/api/guardian-requests/', {
+      const response = await fetch('http://172.16.1.126:8000/api/guardian-requests/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
